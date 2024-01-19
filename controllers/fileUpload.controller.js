@@ -23,15 +23,19 @@ const removeFile = tryCatch(async (req, res, next) => {
 
 const getAllFilesByUserId = tryCatch(async (req, res, next) => {
   let { page, rowsPerPage } = req.query;
-  let arrResult = await fileUploadService.getAllFilesByUserId(req.user._id, {
-    page,
-    rowsPerPage,
-  });
+  let { allFiles, allFilesCount } = await fileUploadService.getAllFilesByUserId(
+    req.user._id,
+    {
+      page,
+      rowsPerPage,
+    }
+  );
   res.status(200).json({
     status: true,
     statuscode: 200,
     message: "all files fetched Successfully",
-    arrResult,
+    arrResult: allFiles,
+    arrCount: allFilesCount,
   });
 });
 

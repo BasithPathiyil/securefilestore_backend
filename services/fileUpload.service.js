@@ -73,10 +73,11 @@ const removeFileDoc = async (objectId) => {
 
 const getAllFilesByUserId = async (userId, options) => {
   const { page, rowsPerPage } = options;
+  const allFilesCount = await UserFile.countDocuments({ userId });
   const allFiles = await UserFile.find({ userId })
     .skip(page ? (page - 1) * rowsPerPage : 0)
     .limit(rowsPerPage ? rowsPerPage : 100);
-  return allFiles;
+  return { allFiles, allFilesCount };
 };
 
 const getFile = async (fileId, secretKey) => {
